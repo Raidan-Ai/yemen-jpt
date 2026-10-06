@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "yemenjpt-contracts"
+version = "0.1.0"
+description = "Shared event and data schemas for YemenJPT"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic==2.9.2",
+    "pydantic-settings==2.5.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.3",
+    "pytest-asyncio==0.24.0",
+    "ruff==0.6.9",
+    "mypy==1.11.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/yemenjpt_contracts"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+select = ["E", "F", "I", "N", "UP", "ANN", "S", "B", "A"]
+ignore = ["ANN101", "ANN102"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true

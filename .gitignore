@@ -41,3 +41,10 @@ next-env.d.ts
 # Agent / tooling
 .codebase-memory/
 .opencode/
+
+# Test / coverage artifacts
+.coverage
+.coverage.*
+htmlcov/
+tmp/
+.cache/
