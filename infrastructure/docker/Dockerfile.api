@@ -1,0 +1,32 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install deps first for caching
+COPY apps/api/pyproject.toml ./pyproject.toml
+RUN pip install --no-cache-dir \
+    fastapi==0.115.0 \
+    uvicorn[standard]==0.30.6 \
+    "sqlalchemy[asyncio]==2.0.36" \
+    asyncpg==0.29.0 \
+    alembic==1.13.3 \
+    "pydantic==2.9.2" \
+    "pydantic-settings==2.5.2" \
+    "python-jose[cryptography]==3.3.0" \
+    "passlib[bcrypt]==1.7.4" \
+    httpx==0.27.2 \
+    networkx==3.4.1 \
+    "numpy==1.26.4" \
+    python-dateutil==2.9.0 \
+    structlog==24.4.0 \
+    tenacity==9.0.0 \
+    orjson==3.10.7
+
+COPY packages/contracts/src /app/contracts/src
+COPY apps/api/src /app/src
+
+ENV PYTHONPATH=/app/src:/app/contracts/src
+ENV MODEL_PROVIDER=mock
+
+EXPOSE 8000
+CMD ["uvicorn", "yemenjpt.main:app", "--host", "0.0.0.0", "--port", "8000"]
